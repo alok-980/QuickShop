@@ -1,6 +1,6 @@
 import userModel from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
-import { generateToken } from "../utils/auth.util.js";
+import { generateToken, verifyRefreshToken } from "../utils/auth.util.js";
 
 export const registerController = async (req, res) => {
     try {
@@ -107,7 +107,68 @@ export const loginController = async (req, res) => {
 
 export const refreshTokenController = async (req, res) => {
     try {
+        const { refreshToken } = req.cookies;
 
+        if (!refreshToken) {
+            return res.status(401).json({
+                success: false,
+                message: "refresh-token is required please login again"
+            })
+        }
+
+        const decoded = verifyRefreshToken(refreshToken);
+
+        if (!decoded) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid token please login again"
+            })
+        }
+
+        const { id } = decoded;
+
+        const user = await userModel.findById(id);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        if (refreshToken !== user.refreshToken) {
+            await userModel.findByIdAndUpdate(user._id, {
+                refreshToken: null
+            })
+
+            return res.status(401).json({
+                success: false,
+                message: "Refresh token mismatch please login again"
+            })
+        }
+
+        const { accessToken, refreshToken: newRefreshToken } = generateToken({ userId: user._id });
+
+        await userModel.findByIdAndUpdate(id, {
+            refreshToken: newRefreshToken
+        })
+
+        res.cookie("refreshToken", newRefreshToken, {
+            httpOnly: true
+        })
+
+        res.status(201).json({
+            success: true,
+            message: "Token rotated successfully",
+            data: {
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email
+                }
+            },
+            accessToken
+        })
     } catch (error) {
         res.status(500).json({
             success: false,
