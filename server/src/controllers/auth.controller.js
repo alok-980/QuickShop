@@ -1,5 +1,6 @@
 import userModel from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
+import { generateToken } from "../utils/auth.util.js";
 
 export const registerController = async (req, res) => {
     try {
@@ -54,7 +55,48 @@ export const registerController = async (req, res) => {
 
 export const loginController = async (req, res) => {
     try {
+        const { email, password } = req.body;
 
+        const user = await userModel.findOne({ email });
+
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid email or password"
+            })
+        }
+
+        const verifyPassword = await bcrypt.compare(password, user.passwordHashed);
+
+        if (!verifyPassword) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid email or password"
+            })
+        }
+
+        const { accessToken, refreshToken } = generateToken({ userId: user._id });
+
+        await userModel.findByIdAndUpdate(user._id, {
+            refreshToken
+        })
+
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true
+        })
+
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            data: {
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email
+                }
+            },
+            accessToken
+        })
     } catch (error) {
         res.status(500).json({
             success: false,
