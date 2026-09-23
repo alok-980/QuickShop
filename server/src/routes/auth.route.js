@@ -15,10 +15,14 @@ import {
     loginValidator
 } from '../validators/auth.validator.js';
 
+import {
+    authenticated
+} from '../middlewares/auth.middleware.js'
+
 router.post('/register', registerValidator, registerController);
 router.post('/login', loginValidator, loginController);
 router.post('/refresh-token', refreshTokenController);
-router.post('/logout', logoutController);
-router.get('/me', meController);
+router.post('/logout', authenticated, logoutController);
+router.get('/me', authenticated, meController);
 
 export default router;

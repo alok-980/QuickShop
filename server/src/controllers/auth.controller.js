@@ -46,9 +46,10 @@ export const registerController = async (req, res) => {
             }
         })
     } catch (error) {
+        console.log("registerController error:", error.message);
         res.status(500).json({
             success: false,
-            message: "Internal server error: " + error.message
+            message: "Internal server error."
         })
     }
 }
@@ -98,9 +99,10 @@ export const loginController = async (req, res) => {
             accessToken
         })
     } catch (error) {
+        console.log("loginController error:", error.message);
         res.status(500).json({
             success: false,
-            message: "Internal server error: " + error.message
+            message: "Internal server error"
         })
     }
 }
@@ -141,7 +143,7 @@ export const refreshTokenController = async (req, res) => {
                 refreshToken: null
             })
 
-            return res.status(401).json({
+            return res.status(403).json({
                 success: false,
                 message: "Refresh token mismatch please login again"
             })
@@ -157,7 +159,7 @@ export const refreshTokenController = async (req, res) => {
             httpOnly: true
         })
 
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             message: "Token rotated successfully",
             data: {
@@ -170,31 +172,75 @@ export const refreshTokenController = async (req, res) => {
             accessToken
         })
     } catch (error) {
+        console.log("refreshTokenController error:", error.message);
         res.status(500).json({
             success: false,
-            message: "Internal server error: " + error.message
+            message: "Internal server error"
         })
     }
 }
 
 export const logoutController = async (req, res) => {
     try {
+        const id = req.user;
 
+        const user = await userModel.findByIdAndUpdate(id, {
+            refreshToken: null
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+
+        res.cookie("refreshToken", "", {
+            httpOnly: true
+        })
+
+        res.status(200).json({
+            success: true,
+            message: "Logout successfully"
+        })
     } catch (error) {
+        console.log("logoutController error:", error.message);
         res.status(500).json({
             success: false,
-            message: "Internal server error: " + error.message
+            message: "Internal server error"
         })
     }
 }
 
 export const meController = async (req, res) => {
     try {
+        const id = req.user;
 
+        const user = await userModel.findById(id);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "User data fetch successfully",
+            data: {
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email
+                }
+            }
+        })
     } catch (error) {
+        console.log("meController error:", error.message);
         res.status(500).json({
             success: false,
-            message: "Internal server error: " + error.message
+            message: "Internal server error"
         })
     }
 }
