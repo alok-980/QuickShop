@@ -41,12 +41,12 @@ const productSchema = new mongoose.Schema({
         default: 0
     },
 
-    owned: {
+    seller: {
         type: mongoose.Types.ObjectId,
         ref: "users",
         required: true
     }
-})
+}, { timestamps: true })
 
 const productModel = mongoose.model("products", productSchema);
 
