@@ -94,9 +94,9 @@ export const loginController = async (req, res) => {
                     id: user._id,
                     name: user.name,
                     email: user.email
-                }
+                },
+                accessToken
             },
-            accessToken
         })
     } catch (error) {
         console.log("loginController error:", error.message);
@@ -167,9 +167,9 @@ export const refreshTokenController = async (req, res) => {
                     id: user._id,
                     name: user.name,
                     email: user.email
-                }
-            },
-            accessToken
+                },
+                accessToken
+            }
         })
     } catch (error) {
         console.log("refreshTokenController error:", error.message);

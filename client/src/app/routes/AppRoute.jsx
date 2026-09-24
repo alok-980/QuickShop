@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import AuthLayout from '../layout/AuthLayout'
 import LoginPage from '../../features/auth/ui/pages/LoginPage'
@@ -7,8 +7,15 @@ import MainLayout from '../layout/MainLayout'
 import ProfilePage from '../../features/auth/ui/pages/ProfilePage'
 import ShopPage from '../../features/product/ui/pages/ShopPage'
 import SingleProductPage from '../../features/product/ui/pages/SingleProductPage'
+import { useDispatch } from 'react-redux'
+import { currentLoggedUser } from '../../features/auth/state/authAction'
 
 const AppRoute = () => {
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(currentLoggedUser())
+    }, [dispatch])
 
     const router = createBrowserRouter([
         {
