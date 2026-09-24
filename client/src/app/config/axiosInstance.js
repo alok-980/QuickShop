@@ -15,28 +15,38 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
 })
 
+let refreshPromise = null;
+
 axiosInstance.interceptors.response.use(
     (response) => response,
 
     async (error) => {
         const originalReq = error.config;
 
+        if (originalReq.url === "/auth/refresh-token") {
+            store.dispatch(removeUser());
+            return Promise.reject(error);
+        }
+
         if (error.response?.status === 401 && !originalReq._retry) {
-            originalReq._retry = true
+            originalReq._retry = true;
 
             try {
-                const res = await axiosInstance.post("/auth/refresh-token")
-                const newAccessToken = res.data.data.accessToken
+                if (!refreshPromise) {
+                    refreshPromise = axiosInstance.post("/auth/refresh-token")
+                        .finally(() => { refreshPromise = null; });
+                }
 
-                store.dispatch(setAccessToken(newAccessToken))
+                const res = await refreshPromise;
+                const newAccessToken = res.data.data.accessToken;
 
-                originalReq.headers.Authorization = `Bearer ${newAccessToken}`
+                store.dispatch(setAccessToken(newAccessToken));
 
-                return axiosInstance(originalReq)
+                originalReq.headers.Authorization = `Bearer ${newAccessToken}`;
+                return axiosInstance(originalReq);
             } catch (refreshError) {
                 store.dispatch(removeUser());
-                window.location.href = '/login'
-                return Promise.reject(refreshError)
+                return Promise.reject(refreshError);
             }
         }
 

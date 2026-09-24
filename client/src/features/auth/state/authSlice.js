@@ -3,7 +3,7 @@ import { currentLoggedUser, loginUser } from "./authAction";
 
 let initialState = {
     user: null,
-    isLoading: false
+    isLoading: true
 }
 
 const authSlice = createSlice({
