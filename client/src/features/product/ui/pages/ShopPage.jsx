@@ -11,22 +11,22 @@ const ShopPage = () => {
   if (isPending) return <Loader />;
 
   return (
-    <div className="min-h-screen w-full bg-[#06120c] px-4 sm:px-8 py-10">
+    <div className="min-h-screen w-full bg-surface-950/80 px-4 sm:px-8 py-10">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest">
-            FreshCart
+          <p className="inline-flex items-center rounded-full border border-accent-400/30 bg-accent-400/10 px-3 py-1 text-accent-300 text-xs font-semibold uppercase tracking-widest">
+            Farm fresh
           </p>
-          <h1 className="text-white text-2xl sm:text-3xl font-bold mt-1">
+          <h1 className="text-ink-100 text-2xl sm:text-3xl font-bold mt-1">
             Shop fresh fruits & vegetables
           </h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-ink-300 text-sm mt-1">
             {products.length} products available
           </p>
         </div>
 
         {products.length === 0 ? (
-          <p className="text-gray-400 text-sm text-center py-20">
+          <p className="text-ink-300 text-sm text-center py-20">
             No products found.
           </p>
         ) : (

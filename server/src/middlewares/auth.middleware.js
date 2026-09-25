@@ -3,6 +3,7 @@ import { verifyAccessToken } from "../utils/auth.util.js"
 export const authenticated = async (req, res, next) => {
     try {
         const accessToken = req.headers.authorization.split(" ")[1];
+        // console.log(accessToken);
 
         if (!accessToken) {
             return res.status(400).json({

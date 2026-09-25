@@ -9,25 +9,25 @@ const ProductCard = ({ product }) => {
   return (
     <div
       key={id}
-      className="bg-white/5 border border-white/10 rounded-xl overflow-hidden flex flex-col hover:border-emerald-400/40 transition"
+      className="bg-surface-800/70 border border-surface-600/70 rounded-xl overflow-hidden flex flex-col shadow-card hover:-translate-y-1 hover:border-brand-400/50 hover:shadow-glow-brand transition-all duration-300"
     >
-      <div className="h-40 w-full bg-emerald-900/20 flex items-center justify-center">
-        <ShoppingBasket size={36} className="text-emerald-400/60" />
+      <div className="h-40 w-full bg-brand-900/40 flex items-center justify-center">
+        <ShoppingBasket size={36} className="text-brand-300/60" />
       </div>
 
       <div className="p-4 flex flex-col gap-2 flex-1">
-        <h3 className="text-white font-semibold text-sm line-clamp-1">
+        <h3 className="text-ink-100 font-semibold text-sm line-clamp-1">
           {title}
         </h3>
-        <p className="text-gray-400 text-xs line-clamp-2">{description}</p>
+        <p className="text-ink-300 text-xs line-clamp-2">{description}</p>
 
         <div className="flex items-center justify-between mt-1">
-          <span className="text-emerald-400 font-bold text-base">₹{price}</span>
+          <span className="text-brand-300 font-bold text-base">₹{price}</span>
           <span
             className={`text-[11px] px-2 py-0.5 rounded-full border ${
               inStock
-                ? "text-emerald-400 border-emerald-400/30 bg-emerald-500/10"
-                : "text-red-400 border-red-400/30 bg-red-500/10"
+                ? "text-brand-300 border-brand-400/30 bg-brand-500/10"
+                : "text-danger-400 border-danger-400/30 bg-danger-500/10"
             }`}
           >
             {inStock ? `${stock} in stock` : "Out of stock"}
@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
 
         <button
           disabled={!inStock}
-          className="mt-2 flex items-center justify-center gap-2 bg-emerald-600 disabled:bg-white/10 disabled:text-gray-500 disabled:cursor-not-allowed text-white text-sm font-semibold py-2 rounded-lg hover:bg-emerald-500 transition-colors cursor-pointer"
+          className="mt-2 flex items-center justify-center gap-2 bg-brand-600 disabled:bg-surface-700 disabled:text-ink-500 disabled:cursor-not-allowed text-ink-100 text-sm font-semibold py-2 rounded-lg hover:bg-brand-500 transition-colors cursor-pointer"
         >
           <ShoppingCart size={16} />
           Add to cart

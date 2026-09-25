@@ -59,4 +59,40 @@ body {
     font-family: var(--font-sans);
     background-color: var(--color-surface-950);
     color: var(--color-ink-100);
+    min-width: 320px;
+    min-height: 100vh;
+    background-image:
+        radial-gradient(circle at 12% -10%, color-mix(in srgb, var(--color-brand-900) 35%, transparent), transparent 32rem),
+        radial-gradient(circle at 88% 0%, color-mix(in srgb, var(--color-accent-600) 8%, transparent), transparent 28rem);
+}
+
+::selection {
+    background: var(--color-brand-500);
+    color: var(--color-ink-100);
+}
+
+button,
+a,
+input {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--color-accent-400);
+    outline-offset: 3px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-surface-950);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-surface-600);
+    border: 3px solid var(--color-surface-950);
+    border-radius: 999px;
 }

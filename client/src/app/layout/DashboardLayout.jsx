@@ -5,7 +5,7 @@ import TopNav from "../../shared/ui/components/dashboard/TopNav";
 
 const DashboardLayout = () => {
   return (
-    <div className="min-h-screen bg-[#06120c]">
+    <div className="min-h-screen bg-surface-950">
       <div className="fixed inset-y-0 left-0 w-60 z-30">
         <AsideNav />
       </div>
