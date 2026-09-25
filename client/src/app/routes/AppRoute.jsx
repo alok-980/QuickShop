@@ -114,7 +114,7 @@ const AppRoute = () => {
                   element: <ProductAddForm />,
                 },
                 {
-                  path: "dashboard/product/:id",
+                  path: "dashboard/product/update/:id",
                   element: <ProductUpdateForm />,
                 },
               ],
