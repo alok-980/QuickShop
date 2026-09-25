@@ -25,6 +25,8 @@ export const useAuth = () => {
 
     const handleRegister = async (data) => {
         const res = await registerUser(data)
+        reset();
+        navigate('/login');
     };
 
     const handleLogin = async (data) => {

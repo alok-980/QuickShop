@@ -11,7 +11,7 @@ export const createProductValidaion = [
         .exists().withMessage("Description is required").bail()
         .isString().withMessage("Description must be a string").bail()
         .trim()
-        .isLength({ min: 20, max: 500 }).withMessage("Description must be between 20 to 500 character"),
+        .isLength({ min: 5, max: 500 }).withMessage("Description must be between 20 to 500 character"),
 
     body('price')
         .exists().withMessage("Price amount is required").bail()
