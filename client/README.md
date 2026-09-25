@@ -1,16 +1,59 @@
-# React + Vite
+# QuickShop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+QuickShop is a multi-user e-commerce platform. Users can purchase products from the shop, and can also become sellers to list and sell their own products.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Users can register/login to browse and buy products.
+- Any user can become a seller and add, edit, and delete their own products.
+- Sellers can manage their products through a separate dashboard.
+- Available products can be viewed and purchased on the shop page.
+- The frontend is built with React and Vite, along with a backend API, for authentication and product management.
 
-## React Compiler
+## Setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Requirements
 
-## Expanding the ESLint configuration
+- Node.js 18+
+- QuickShop server running on `http://localhost:3000`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Run the client
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+## Available API Endpoints
+
+### Authentication
+
+| Method | Endpoint              | Description                       |
+| ------ | --------------------- | --------------------------------- |
+| `POST` | `/auth/register`      | Register a new user               |
+| `POST` | `/auth/login`         | Log in a user                     |
+| `POST` | `/auth/refresh-token` | Refresh the access token          |
+| `POST` | `/auth/logout`        | Log out the current user          |
+| `GET`  | `/auth/me`            | Get details of the logged-in user |
+
+### Products
+
+| Method   | Endpoint       | Description                            |
+| -------- | -------------- | -------------------------------------- |
+| `POST`   | `/product`     | Create a new product _(authenticated)_ |
+| `GET`    | `/product`     | Get all products                       |
+| `GET`    | `/product/:id` | Get details of a single product        |
+| `PUT`    | `/product/:id` | Update your product _(authenticated)_  |
+| `DELETE` | `/product/:id` | Delete your product _(authenticated)_  |
+
+A valid authentication token/cookie is required for protected endpoints.
+
+## Available Scripts
+
+```bash
+npm run dev       # Start the development server
+npm run build     # Create a production build
+npm run lint      # Run ESLint
+npm run preview   # Preview the production build
+```
