@@ -1,10 +1,15 @@
 import { useForm } from "react-hook-form";
 import { registerUser } from "../apis/authApi.js";
 import { useDispatch } from "react-redux"
-import { loginUser } from "../state/authAction.js"
+import { loginUser, logoutUser } from "../state/authAction.js"
+import { useNavigate } from "react-router";
+import { useState } from "react";
 
 export const useAuth = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [isOpen, setIsOpen] = useState(false);
 
     const {
         register,
@@ -12,6 +17,11 @@ export const useAuth = () => {
         formState: { errors },
         reset,
     } = useForm();
+
+    const handleDashboard = () => {
+        setIsOpen(false);
+        navigate("/dashboard");
+    };
 
     const handleRegister = async (data) => {
         const res = await registerUser(data)
@@ -21,11 +31,22 @@ export const useAuth = () => {
         dispatch(loginUser(data))
     }
 
+    const handleLogout = () => {
+        setIsOpen(false)
+        dispatch(logoutUser())
+        navigate("/login")
+    }
+
     return {
+        isOpen,
+        setIsOpen,
+        navigate,
         register,
         handleSubmit,
         errors,
         handleRegister,
-        handleLogin
+        handleLogin,
+        handleLogout,
+        handleDashboard
     }
 }

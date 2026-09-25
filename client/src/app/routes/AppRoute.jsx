@@ -4,21 +4,25 @@ import AuthLayout from "../layout/AuthLayout";
 import LoginPage from "../../features/auth/ui/pages/LoginPage";
 import RegisterPage from "../../features/auth/ui/pages/RegisterPage";
 import MainLayout from "../layout/MainLayout";
-import ProfilePage from "../../features/auth/ui/pages/ProfilePage";
 import ShopPage from "../../features/product/ui/pages/ShopPage";
 import SingleProductPage from "../../features/product/ui/pages/SingleProductPage";
 import { useDispatch } from "react-redux";
 import { currentLoggedUser } from "../../features/auth/state/authAction";
 import PublicRoute from "../protectedRoutes/PublicRoute";
 import ProtectedRoute from "../protectedRoutes/ProtectedRoute";
+import HomePage from "../../shared/ui/pages/HomePage";
+import AboutPage from "../../shared/ui/pages/AboutPage";
+import ContactUsPage from "../../shared/ui/pages/ContactUsPage";
+import Dashboard from "../../features/auth/ui/pages/Dashboard";
+import DashboardLayout from "../layout/DashboardLayout";
 
 const AppRoute = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     (() => {
-        dispatch(currentLoggedUser())
-    })()
+      dispatch(currentLoggedUser());
+    })();
   }, []);
 
   const router = createBrowserRouter([
@@ -55,8 +59,8 @@ const AppRoute = () => {
           element: <MainLayout />,
           children: [
             {
-              path: "profile",
-              element: <ProfilePage />,
+              path: "home",
+              element: <HomePage />,
             },
             {
               path: "products",
@@ -65,6 +69,24 @@ const AppRoute = () => {
             {
               path: "products/:id",
               element: <SingleProductPage />,
+            },
+            {
+              path: "about",
+              element: <AboutPage />,
+            },
+            {
+              path: "contact",
+              element: <ContactUsPage />,
+            },
+          ],
+        },
+        {
+          path: "",
+          element: <DashboardLayout />,
+          children: [
+            {
+              path: "dashboard",
+              element: <Dashboard />,
             },
           ],
         },

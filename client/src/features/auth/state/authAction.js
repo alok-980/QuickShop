@@ -13,6 +13,17 @@ export const loginUser = createAsyncThunk(
     }
 )
 
+export const logoutUser = createAsyncThunk(
+    "auth/logout",
+    async (_, thunkApi) => {
+        try {
+            await axiosInstance.post("/auth/logout")
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
 export const currentLoggedUser = createAsyncThunk(
     "auth/me",
     async (_, thunkApi) => {

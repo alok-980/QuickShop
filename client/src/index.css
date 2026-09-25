@@ -1,1 +1,62 @@
-@import 'tailwindcss'
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+@theme {
+    /* ---------- typography ---------- */
+    --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+    /* ---------- surface (backgrounds / cards, layered dark green-black) ---------- */
+    --color-surface-950: #050d09;
+    /* page background */
+    --color-surface-900: #0a1811;
+    /* base cards */
+    --color-surface-800: #11241a;
+    /* raised cards / inputs */
+    --color-surface-700: #1a3324;
+    /* hover surfaces */
+    --color-surface-600: #24452f;
+    /* borders on dark */
+
+    /* ---------- brand (rich jade green, deeper & more saturated than stock emerald) ---------- */
+    --color-brand-50: #eafbf1;
+    --color-brand-100: #c9f5da;
+    --color-brand-200: #98e9b9;
+    --color-brand-300: #62d693;
+    --color-brand-400: #34bd74;
+    --color-brand-500: #17a05c;
+    /* primary */
+    --color-brand-600: #0f8049;
+    --color-brand-700: #0c633a;
+    --color-brand-800: #0a4d2e;
+    --color-brand-900: #073d25;
+
+    /* ---------- accent (warm citrus gold, used sparingly for premium highlights) ---------- */
+    --color-accent-300: #ffd873;
+    --color-accent-400: #fbbf24;
+    --color-accent-500: #f0a821;
+    --color-accent-600: #d98c0f;
+
+    /* ---------- text ---------- */
+    --color-ink-100: #f4f7f5;
+    /* headings */
+    --color-ink-300: #b9c4bd;
+    /* body */
+    --color-ink-500: #7c8b82;
+    /* muted */
+
+    /* ---------- semantic ---------- */
+    --color-danger-400: #f87171;
+    --color-danger-500: #ef4444;
+    --color-success-400: #34d399;
+
+    /* ---------- premium shadows / glow ---------- */
+    --shadow-glow-brand: 0 8px 30px -8px color-mix(in srgb, var(--color-brand-500) 45%, transparent);
+    --shadow-glow-accent: 0 8px 24px -8px color-mix(in srgb, var(--color-accent-500) 50%, transparent);
+    --shadow-card: 0 20px 50px -20px rgb(0 0 0 / 0.55);
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-surface-950);
+    color: var(--color-ink-100);
+}
