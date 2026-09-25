@@ -21,6 +21,16 @@ export const getAllProduct = async () => {
     }
 }
 
+export const getProductById = async (id) => {
+    try {
+        let res = await axiosInstance.get(`/product/${id}`);
+        console.log(res.data.data);
+        return res.data.data.product;
+    } catch (error) {
+        console.log("det product by id api error: ", error.message);
+    }
+}
+
 export const updateProduct = async (id, data) => {
     try {
         let res = await axiosInstance.put(`/product/${id}`, data);

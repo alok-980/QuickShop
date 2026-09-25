@@ -1,15 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { ShoppingBasket, ShoppingCart } from "lucide-react";
 
 const ProductCard = ({ product }) => {
   const { id, title, description, price, stock } = product;
+  const navigate = useNavigate();
 
   const inStock = stock > 0;
 
   return (
     <div
       key={id}
-      className="bg-surface-800/70 border border-surface-600/70 rounded-xl overflow-hidden flex flex-col shadow-card hover:-translate-y-1 hover:border-brand-400/50 hover:shadow-glow-brand transition-all duration-300"
+      onClick={() => navigate(`/products/${id}`)}
+      className="bg-surface-800/70 border border-surface-600/70 rounded-xl overflow-hidden flex flex-col shadow-card hover:-translate-y-1 hover:border-brand-400/50 hover:shadow-glow-brand transition-all duration-300 cursor-pointer"
     >
       <div className="h-40 w-full bg-brand-900/40 flex items-center justify-center">
         <ShoppingBasket size={36} className="text-brand-300/60" />
@@ -36,6 +39,7 @@ const ProductCard = ({ product }) => {
 
         <button
           disabled={!inStock}
+          onClick={(e) => e.stopPropagation()}
           className="mt-2 flex items-center justify-center gap-2 bg-brand-600 disabled:bg-surface-700 disabled:text-ink-500 disabled:cursor-not-allowed text-ink-100 text-sm font-semibold py-2 rounded-lg hover:bg-brand-500 transition-colors cursor-pointer"
         >
           <ShoppingCart size={16} />

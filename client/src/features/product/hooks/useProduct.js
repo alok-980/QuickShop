@@ -1,6 +1,12 @@
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { addProduct, getAllProduct, updateProduct, deleteProduct } from "../apis/productApi";
+import {
+    addProduct,
+    getAllProduct,
+    getProductById,
+    updateProduct,
+    deleteProduct,
+} from "../apis/productApi";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 
@@ -24,7 +30,17 @@ export const useProduct = () => {
         placeholderData: (prev) => prev,
     });
 
+    const { data: singleProduct, isPending: isSingleProductPending } = useQuery({
+        queryKey: ["product", id],
+        queryFn: () => getProductById(id),
+        enabled: !!id,
+    });
+
     const currentProduct = data?.products?.find((product) => product.id === id);
+
+    const relatedProducts = (data?.products || [])
+        .filter((product) => product.id !== id)
+        .slice(0, 4);
 
     useEffect(() => {
         if (currentProduct) {
@@ -51,12 +67,15 @@ export const useProduct = () => {
     const handleProductDelete = async (id) => {
         const res = await deleteProduct(id);
         await queryClient.invalidateQueries({ queryKey: ["products"] });
-    }
+    };
 
     return {
         data,
         isPending,
         currentProduct,
+        singleProduct,
+        isSingleProductPending,
+        relatedProducts,
         register,
         handleSubmit,
         errors,
