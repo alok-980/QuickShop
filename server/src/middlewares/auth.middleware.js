@@ -2,15 +2,17 @@ import { verifyAccessToken } from "../utils/auth.util.js"
 
 export const authenticated = async (req, res, next) => {
     try {
-        const accessToken = req.headers.authorization.split(" ")[1];
-        // console.log(accessToken);
+        const authHeader = req.headers.authorization;
 
-        if (!accessToken) {
-            return res.status(400).json({
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({
                 success: false,
                 message: "Token is required"
             })
         }
+
+        const accessToken = authHeader.split(" ")[1];
+        // console.log(accessToken);
 
         const decoded = await verifyAccessToken(accessToken);
 

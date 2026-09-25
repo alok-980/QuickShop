@@ -1,6 +1,7 @@
 import userModel from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
 import { generateToken, verifyRefreshToken } from "../utils/auth.util.js";
+import { refreshTokenCookieOptions } from "../utils/cookieOptions.js";
 
 export const registerController = async (req, res) => {
     try {
@@ -82,9 +83,7 @@ export const loginController = async (req, res) => {
             refreshToken
         })
 
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true
-        })
+        res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions())
 
         res.status(200).json({
             success: true,
@@ -155,9 +154,7 @@ export const refreshTokenController = async (req, res) => {
             refreshToken: newRefreshToken
         })
 
-        res.cookie("refreshToken", newRefreshToken, {
-            httpOnly: true
-        })
+        res.cookie("refreshToken", newRefreshToken, refreshTokenCookieOptions())
 
         res.status(200).json({
             success: true,
@@ -196,7 +193,8 @@ export const logoutController = async (req, res) => {
         }
 
         res.cookie("refreshToken", "", {
-            httpOnly: true
+            ...refreshTokenCookieOptions(),
+            maxAge: 0
         })
 
         res.status(200).json({

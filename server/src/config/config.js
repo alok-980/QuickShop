@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const config = {
+    NODE_ENV: process.env.NODE_ENV || 'development',
     MONGODB_URI: process.env.MONGODB_URI,
     PORT: process.env.PORT || 8000,
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,

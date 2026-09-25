@@ -6,8 +6,13 @@ import productRoute from '../routes/product.route.js';
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: [
+        'http://localhost:5173',
+        'https://quick-shop-pearl-theta.vercel.app'
+    ],
     credentials: true
 }))
 
