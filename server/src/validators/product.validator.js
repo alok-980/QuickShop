@@ -47,7 +47,7 @@ export const updateProductValidation = [
         .optional()
         .isString().withMessage("Description must be a string").bail()
         .trim()
-        .isLength({ min: 20, max: 500 }).withMessage("Description must be between 20 to 500 character"),
+        .isLength({ min: 5, max: 500 }).withMessage("Description must be between 20 to 500 character"),
 
     body('price')
         .optional()

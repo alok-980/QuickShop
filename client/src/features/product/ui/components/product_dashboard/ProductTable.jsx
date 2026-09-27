@@ -4,11 +4,12 @@ import { useProduct } from "../../../hooks/useProduct";
 import Loader from "../../../../../shared/ui/components/Loader";
 
 const ProductTable = () => {
-  const { data, isPending, navigate, handleProductDelete } = useProduct();
+  const { userProduct, isUserProductPending, navigate, handleProductDelete } =
+    useProduct();
 
-  const products = data?.products || [];
+  const products = userProduct?.products || [];
 
-  if (isPending) return <Loader />;
+  if (isUserProductPending) return <Loader />;
 
   return (
     <div className="p-6 sm:p-8">
@@ -55,7 +56,8 @@ const ProductTable = () => {
                   colSpan={4}
                   className="px-5 py-10 text-center text-ink-300 text-sm"
                 >
-                  No products found.
+                  No products found. <br />
+                    Please list your product
                 </td>
               </tr>
             ) : (

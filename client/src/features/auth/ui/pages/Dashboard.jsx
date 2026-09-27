@@ -49,12 +49,12 @@ const statCards = [
 
 const Dashboard = () => {
   const user = useSelector((state) => state.auth.user.user);
-  const { data, isPending } = useProduct();
+  const { userProduct, isUserProductPending, } = useProduct();
 
-  const products = data?.products || [];
+  const products = userProduct?.products || [];
   const recentProducts = products.slice(-5).reverse();
 
-  if (isPending) return <Loader />;
+  if (isUserProductPending) return <Loader />;
 
   return (
     <div className="p-6 sm:p-8">
@@ -129,7 +129,8 @@ const Dashboard = () => {
                     colSpan={3}
                     className="px-5 py-10 text-center text-ink-300 text-sm"
                   >
-                    No products yet.
+                    No products yet. <br />
+                    Please list your product
                   </td>
                 </tr>
               ) : (

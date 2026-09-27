@@ -5,6 +5,7 @@ const router = express.Router();
 import {
     createProductController,
     getAllProductController,
+    getProductByUserIdController,
     getProductByIdController,
     updateProductByIdController,
     deleteProductByIdController
@@ -22,6 +23,7 @@ import {
 
 router.post('/', authenticated, createProductValidaion, createProductController);
 router.get('/', getAllProductController);
+router.get('/user', authenticated, getProductByUserIdController)
 router.get('/:id', productIdValidation, getProductByIdController);
 router.put('/:id', authenticated, productIdValidation, updateProductValidation, updateProductByIdController);
 router.delete('/:id', authenticated, productIdValidation, deleteProductByIdController);

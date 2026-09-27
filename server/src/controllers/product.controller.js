@@ -1,4 +1,5 @@
 import productModel from "../models/product.model.js";
+// import userModel from "../models/user.model.js"
 
 export const createProductController = async (req, res) => {
     try {
@@ -38,6 +39,13 @@ export const getAllProductController = async (req, res) => {
     try {
         const products = await productModel.find({});
 
+        if (products.length <= 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not avalable in inventory"
+            })
+        }
+
         res.status(200).json({
             success: true,
             message: "Product fetched successfully",
@@ -57,6 +65,47 @@ export const getAllProductController = async (req, res) => {
                 success: false,
                 message: "Internal server error"
             })
+    }
+}
+
+export const getProductByUserIdController = async (req, res) => {
+    try {
+        const id = req.user;
+
+        // console.log(id);
+
+        // const user = await userModel.findById(id)
+
+        // console.log(user.email);
+
+        const products = await productModel.find({ seller: id });
+
+        if (products.length <= 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not avalable in inventory"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Product fetched successfully",
+            data: {
+                products: products.map(product => ({
+                    id: product._id,
+                    title: product.title,
+                    description: product.description,
+                    price: product.price,
+                    stock: product.stock
+                }))
+            }
+        })
+    } catch (error) {
+        console.log("getProductByUserIdController error: ", error.message);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        })
     }
 }
 

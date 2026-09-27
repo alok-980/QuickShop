@@ -2,8 +2,10 @@ import axios from 'axios';
 import { store } from '../store';
 import { setAccessToken, removeUser } from '../../features/auth/state/authSlice';
 
+const isDevelopment = import.meta.env.DEV;
+
 export const axiosInstance = axios.create({
-    baseURL: `${import.meta.env.VITE_API_BASE_URL}/api` || 'http://localhost:3000/api',
+    baseURL: isDevelopment ? 'http://localhost:3000/api' : `${import.meta.env.VITE_API_BASE_URL}/api`,
     withCredentials: true
 })
 
