@@ -26,8 +26,9 @@ export const logoutUser = createAsyncThunk(
     "auth/logout",
     async (_, thunkApi) => {
         try {
-            await axiosInstance.post("/auth/logout")
+            const res = await axiosInstance.post("/auth/logout")
             toast.success(res.data.message);
+            return res.data;
         } catch (error) {
             toast.error(getErrorMessage(error));
             return thunkApi.rejectWithValue(error)

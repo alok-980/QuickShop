@@ -35,7 +35,7 @@ export const useAuth = () => {
 
     const handleLogout = () => {
         setIsOpen(false)
-        dispatch(logoutUser())
+        const res = dispatch(logoutUser())
         navigate("/login")
     }
 
