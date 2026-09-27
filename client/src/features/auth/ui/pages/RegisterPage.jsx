@@ -8,11 +8,12 @@ import {
   Leaf,
   Truck,
   ShoppingBasket,
+  Loader2
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 
 const RegisterPage = () => {
-  const { register, handleSubmit, errors, handleRegister } = useAuth();
+  const { register, handleSubmit, errors, handleRegister, isLoading } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -246,8 +247,17 @@ const RegisterPage = () => {
               )}
             </div>
 
-            <button className="bg-brand-600 text-ink-100 font-semibold py-2 rounded-lg hover:bg-brand-500 transition-colors cursor-pointer mt-2">
-              Sign Up
+            <button 
+              disabled={isLoading} 
+              className="flex items-center gap-2 justify-center bg-brand-600 text-ink-100 font-semibold py-2 rounded-lg hover:bg-brand-500 transition-colors cursor-pointer mt-2"
+            >
+              {isLoading ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" /> Signing...
+                  </>
+                ) : (
+                  "Sign Up"
+                )}
             </button>
           </form>
 

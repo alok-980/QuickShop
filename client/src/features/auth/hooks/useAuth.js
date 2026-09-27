@@ -9,6 +9,7 @@ export const useAuth = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
     const {
@@ -24,9 +25,11 @@ export const useAuth = () => {
     };
 
     const handleRegister = async (data) => {
+        setIsLoading(true)
         const res = await registerUser(data)
         reset();
         navigate('/login');
+        setIsLoading(false)
     };
 
     const handleLogin = async (data) => {
@@ -49,6 +52,7 @@ export const useAuth = () => {
         handleRegister,
         handleLogin,
         handleLogout,
-        handleDashboard
+        handleDashboard,
+        isLoading
     }
 }
