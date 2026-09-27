@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     addProduct,
@@ -15,6 +15,8 @@ export const useProduct = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const queryClient = useQueryClient();
+    const [isLoading, setIsLoading] = useState(false);
+    const [deletingProductId, setDeletingProductId] = useState(null);
 
     const {
         register,
@@ -70,23 +72,29 @@ export const useProduct = () => {
     }, [currentProduct, reset]);
 
     const handleProductAdd = async (data) => {
+        setIsLoading(true)
         const res = await addProduct(data);
         await queryClient.invalidateQueries({ queryKey: ["products"] });
         await queryClient.invalidateQueries({ queryKey: ["userProducts"] });
+        setIsLoading(false)
         navigate("/dashboard/product");
     };
 
     const handleProductUpdate = async (formData) => {
+        setIsLoading(true)
         const res = await updateProduct(id, formData);
-        navigate("/dashboard/product");
         await queryClient.invalidateQueries({ queryKey: ["products"] });
         await queryClient.invalidateQueries({ queryKey: ["userProducts"] });
+        setIsLoading(false)
+        navigate("/dashboard/product");
     };
 
     const handleProductDelete = async (id) => {
+        setDeletingProductId(id)
         const res = await deleteProduct(id);
         await queryClient.invalidateQueries({ queryKey: ["products"] });
         await queryClient.invalidateQueries({ queryKey: ["userProducts"] });
+        setDeletingProductId(null)
     };
 
     return {
@@ -105,5 +113,7 @@ export const useProduct = () => {
         handleProductUpdate,
         handleProductDelete,
         navigate,
+        isLoading,
+        deletingProductId
     };
 };

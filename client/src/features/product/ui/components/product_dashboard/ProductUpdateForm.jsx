@@ -1,5 +1,5 @@
 import React from "react";
-import { Tag, AlignLeft, IndianRupee, Boxes, ArrowLeft } from "lucide-react";
+import { Tag, AlignLeft, IndianRupee, Boxes, ArrowLeft, Loader2 } from "lucide-react";
 import { useProduct } from "../../../hooks/useProduct";
 import Loader from "../../../../../shared/ui/components/Loader";
 
@@ -12,6 +12,7 @@ const ProductUpdateForm = () => {
     navigate,
     isPending,
     currentProduct,
+    isLoading,
   } = useProduct();
 
   if (isPending) return <Loader />;
@@ -168,9 +169,16 @@ const ProductUpdateForm = () => {
             <div className="flex items-center gap-3 mt-2">
               <button
                 type="submit"
-                className="flex px-4 bg-brand-600 text-ink-100 font-semibold py-2.5 rounded-lg shadow-[var(--shadow-glow-brand)] hover:bg-brand-500 transition-colors cursor-pointer"
+                disabled={isLoading}
+                className="flex items-center gap-2 px-4 bg-brand-600 text-ink-100 font-semibold py-2.5 rounded-lg shadow-[var(--shadow-glow-brand)] hover:bg-brand-500 transition-colors cursor-pointer"
               >
-                Update Product
+                {isLoading ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" /> Updating...
+                  </>
+                ) : (
+                  "Update Product"
+                )}
               </button>
               <button
                 type="button"

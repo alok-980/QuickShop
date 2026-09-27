@@ -1,11 +1,16 @@
 import React from "react";
-import { Plus, Pencil, Trash2, Package } from "lucide-react";
+import { Plus, Pencil, Trash2, Package, Loader2 } from "lucide-react";
 import { useProduct } from "../../../hooks/useProduct";
 import Loader from "../../../../../shared/ui/components/Loader";
 
 const ProductTable = () => {
-  const { userProduct, isUserProductPending, navigate, handleProductDelete } =
-    useProduct();
+  const {
+    userProduct,
+    isUserProductPending,
+    navigate,
+    handleProductDelete,
+    deletingProductId,
+  } = useProduct();
 
   const products = userProduct?.products || [];
 
@@ -57,58 +62,67 @@ const ProductTable = () => {
                   className="px-5 py-10 text-center text-ink-300 text-sm"
                 >
                   No products found. <br />
-                    Please list your product
+                  Please list your product
                 </td>
               </tr>
             ) : (
-              products.map((product) => (
-                <tr
-                  key={product.id}
-                  className="border-b border-surface-600/30 last:border-0 hover:bg-surface-800/60 transition-colors"
-                >
-                  <td className="px-5 py-3">
-                    <div className="flex items-center gap-3">
-                      <span className="h-10 w-10 rounded-lg bg-brand-500/10 border border-brand-400/20 flex items-center justify-center shrink-0">
-                        <Package size={16} className="text-brand-400" />
-                      </span>
-                      <div className="min-w-0">
-                        <p className="text-ink-100 text-sm font-medium truncate">
-                          {product.title}
-                        </p>
-                        <p className="text-ink-500 text-xs truncate max-w-xs">
-                          {product.description}
-                        </p>
+              products.map((product) => {
+                const isDeletingThisRow = deletingProductId === product.id;
+
+                return (
+                  <tr
+                    key={product.id}
+                    className="border-b border-surface-600/30 last:border-0 hover:bg-surface-800/60 transition-colors"
+                  >
+                    <td className="px-5 py-3">
+                      <div className="flex items-center gap-3">
+                        <span className="h-10 w-10 rounded-lg bg-brand-500/10 border border-brand-400/20 flex items-center justify-center shrink-0">
+                          <Package size={16} className="text-brand-400" />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-ink-100 text-sm font-medium truncate">
+                            {product.title}
+                          </p>
+                          <p className="text-ink-500 text-xs truncate max-w-xs">
+                            {product.description}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-5 py-3 text-sm text-ink-100">
-                    ₹{product.price}
-                  </td>
-                  <td className="px-5 py-3 text-sm text-ink-300">
-                    {product.stock}
-                  </td>
-                  <td className="px-5 py-3">
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={() =>
-                          navigate(`/dashboard/product/update/${product.id}`)
-                        }
-                        aria-label="Update product"
-                        className="h-9 w-9 rounded-lg border border-surface-600/50 flex items-center justify-center text-ink-300 hover:text-brand-400 hover:border-brand-400/40 transition-colors cursor-pointer"
-                      >
-                        <Pencil size={15} />
-                      </button>
-                      <button
-                        onClick={() => handleProductDelete(product.id)}
-                        aria-label="Delete product"
-                        className="h-9 w-9 rounded-lg border border-surface-600/50 flex items-center justify-center text-ink-300 hover:text-danger-400 hover:border-danger-400/40 transition-colors cursor-pointer"
-                      >
-                        <Trash2 size={15} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
+                    </td>
+                    <td className="px-5 py-3 text-sm text-ink-100">
+                      ₹{product.price}
+                    </td>
+                    <td className="px-5 py-3 text-sm text-ink-300">
+                      {product.stock}
+                    </td>
+                    <td className="px-5 py-3">
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() =>
+                            navigate(`/dashboard/product/update/${product.id}`)
+                          }
+                          aria-label="Update product"
+                          className="h-9 w-9 rounded-lg border border-surface-600/50 flex items-center justify-center text-ink-300 hover:text-brand-400 hover:border-brand-400/40 transition-colors cursor-pointer"
+                        >
+                          <Pencil size={15} />
+                        </button>
+                        <button
+                          onClick={() => handleProductDelete(product.id)}
+                          disabled={isDeletingThisRow}
+                          aria-label="Delete product"
+                          className="h-9 w-9 rounded-lg border border-surface-600/50 flex items-center justify-center text-ink-300 hover:text-danger-400 hover:border-danger-400/40 disabled:opacity-70 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                        >
+                          {isDeletingThisRow ? (
+                            <Loader2 size={15} className="animate-spin" />
+                          ) : (
+                            <Trash2 size={15} />
+                          )}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
             )}
           </tbody>
         </table>
