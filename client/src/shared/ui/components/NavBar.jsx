@@ -60,7 +60,7 @@ const NavBar = () => {
             <a
               key={link.label}
               href={link.href}
-              onClick={() => setIsOpen(false)}
+              onClick={() => setIsOpen(true)}
               className="text-sm text-ink-300 hover:text-brand-300 transition-colors"
             >
               {link.label}

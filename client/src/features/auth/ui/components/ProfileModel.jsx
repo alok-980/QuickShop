@@ -13,6 +13,7 @@ const ProfileModel = () => {
       className="relative"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
+      onClick={() => setIsOpen(true)}
     >
       <button
         aria-label="Profile"
