@@ -54,6 +54,4 @@ A valid authentication token/cookie is required for protected endpoints.
 ```bash
 npm run dev       # Start the development server
 npm run build     # Create a production build
-npm run lint      # Run ESLint
-npm run preview   # Preview the production build
 ```

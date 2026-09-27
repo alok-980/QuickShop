@@ -1,12 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import { ArrowLeft, Search } from "lucide-react";
+import { ArrowLeft, Search, Menu } from "lucide-react";
 
-const TopNav = () => {
+const TopNav = ({ onMenuClick }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="h-16 w-full bg-surface-950 border-b border-surface-600/70 flex items-center gap-4 px-5">
+    <div className="h-16 w-full bg-surface-950 border-b border-surface-600/70 flex items-center gap-3 sm:gap-4 px-4 sm:px-5">
+      <button
+        onClick={onMenuClick}
+        aria-label="Open menu"
+        className="lg:hidden h-9 w-9 shrink-0 rounded-lg border border-surface-600/70 bg-surface-800/70 flex items-center justify-center text-ink-300 hover:text-brand-300 hover:border-brand-400/40 transition"
+      >
+        <Menu size={17} />
+      </button>
+
       <div className="relative group inline-block">
         <button
           onClick={() => navigate("/products")}
